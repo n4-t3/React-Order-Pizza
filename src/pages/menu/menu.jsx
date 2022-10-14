@@ -6,7 +6,6 @@ const Menu = (props) =>{
             <Card></Card>
             <Card></Card>
             <Card></Card>
-
     </div>
     )
 }

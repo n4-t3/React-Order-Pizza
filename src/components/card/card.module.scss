@@ -1,7 +1,8 @@
 .card{
-    width: 200px;
-}
-
-.pizza_img{
-    width: 200px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 1s linear;
+    &:hover{
+        transform: scale(1.1);
+    }
 }
