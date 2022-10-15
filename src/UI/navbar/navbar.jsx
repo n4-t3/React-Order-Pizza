@@ -1,6 +1,11 @@
 import pizzaLogo from "./svg/pizza.svg" 
 import {Link} from 'react-router-dom'
+import React,{ useContext } from 'react'
+import { AuthContext } from "../../App"
+
 const NavBar = (props) => {
+    const ctx = useContext(AuthContext)
+    
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -16,18 +21,18 @@ const NavBar = (props) => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/React-Order-Pizza/cart/">Cart</Link>
                         </li>
-                        <li className="nav-item">
+                        {!ctx.isAuthenticated && <li className="nav-item">
                             <Link className="nav-link" to="/React-Order-Pizza/login/">Login</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/React-Order-Pizza/logout/">Logout</Link>
-                        </li>
-                        <li className="nav-item">
+                        </li>}
+                        {ctx.isAuthenticated && <li className="nav-item">
+                            <Link className="nav-link" to="/React-Order-Pizza/logout/" >Logout</Link>
+                        </li>}
+                        {!ctx.isAuthenticated && <li className="nav-item">
                             <Link className="nav-link" to="/React-Order-Pizza/register/">Register</Link>
-                        </li>
-                        <li className="nav-item">
+                        </li>}
+                        {ctx.isAuthenticated && <li className="nav-item">
                             <Link className="nav-link" to="/React-Order-Pizza/progress/">Progress</Link>
-                        </li>
+                        </li>}
                     </ul>
                 </div>
             </div>
