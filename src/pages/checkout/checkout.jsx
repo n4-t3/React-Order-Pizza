@@ -6,31 +6,31 @@ const CheckOut = (props) => {
             <form>
                 <div className='display-4 mb-4'>Checkout</div>
                 <div className="mb-3">
-                    <label for="inputAddress" className="form-label">Address</label>
+                    <label htmlFor="inputAddress" className="form-label">Address</label>
                     <input type="text" className="form-control" id="inputAddress" />
-                    <small id="addressHelp" class="form-text text-muted">City / Sub-city</small>
+                    <small id="addressHelp" className="form-text text-muted">City / Sub-city</small>
                 </div>
                 <div className="mb-3">
-                    <label for="inputAddress2" className="form-label">Specific Address</label>
+                    <label htmlFor="inputAddress2" className="form-label">Specific Address</label>
                     <input type="text" className="form-control" id="inputAddress2" />
-                    <small id="addressHelp2" class="form-text text-muted">Area / Building / Building Number</small>
+                    <small id="addressHelp2" className="form-text text-muted">Area / Building / Building Number</small>
                 </div>
                 <div className="mb-3">
-                    <label for="inputZip" className="form-label">Zip</label>
+                    <label htmlFor="inputZip" className="form-label">Zip</label>
                     <input type="text" className="form-control" id="inputZip" />
                 </div>
                 <hr />
                 <div className="mb-3">
-                    <label for="inputCard" className="form-label">Credit card number</label>
-                    <input type="tel" className="form-control" id="inputCard" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" />
+                    <label htmlFor="inputCard" className="form-label">Credit card number</label>
+                    <input type="tel" className="form-control" id="inputCard" inputMode="numeric" pattern="[0-9\s]{13,19}" autoComplete="cc-number" maxLength="19" placeholder="xxxx xxxx xxxx xxxx" />
                 </div>
                 <div className="mb-3 d-flex flex-row w-100">
                     <div className="me-4 w-50">
-                        <label for="inputExpiration" className="form-label">Expiration</label>
+                        <label htmlFor="inputExpiration" className="form-label">Expiration</label>
                         <input type="password" className="form-control" id="inputExpiration" placeholder="MM/YY" />
                     </div>
                     <div className="w-50">
-                        <label for="inputCVV" className="form-label">CVV</label>
+                        <label htmlFor="inputCVV" className="form-label">CVV</label>
                         <input type="password" className="form-control" id="inputCVV" placeholder="XXX"/>
                     </div>
                 </div>

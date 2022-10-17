@@ -1,6 +1,12 @@
 import cartCSS from './cart.module.scss'
 import { ReactComponent as IconMenu } from './icon/trashIcon.svg'
+import { useContext } from 'react'
+import { AuthContext } from '../../App'
+
 const Cart = (props) => {
+
+    const ctx = useContext(AuthContext)
+
     return (
         <div className='container'>
             <div className='display-4 mb-4 mt-4'>Cart</div>

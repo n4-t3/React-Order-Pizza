@@ -1,9 +1,11 @@
 import loginCSS from './login.module.scss'
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import useAPI from '../../hooks/useAPI/useAPI'
+import { AuthContext } from '../../App'
+import axiosInstance from '../../api/axiosInstance'
 
 const Login = (props) => {
+    const ctx = useContext(AuthContext)
     const navigate = useNavigate();
     const initialLoginForm = Object.freeze({
         email: "",
@@ -20,21 +22,18 @@ const Login = (props) => {
     }
     const handleLogin = (e) => {
         e.preventDefault()
-        console.log(loginForm)
 
-        useAPI
+        axiosInstance
             .post(`api/token/`, {
                 email: loginForm.email,
                 password: loginForm.password,
             })
             .then(
                 (res) => {
-                    console.log(res.data)
                     localStorage.setItem('authTokens',  JSON.stringify(res.data))
-                    useAPI.defaults.headers['Authorization'] = `JWT ${res.data.access}`
+                    axiosInstance.defaults.headers['Authorization'] = `JWT ${res.data.access}`
+                    ctx.setIsAuthenticated(true)
                     navigate('/React-Order-Pizza/')
-                    console.log(res)
-                    console.log(res.data)
                 }
             )
     }

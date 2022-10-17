@@ -1,7 +1,7 @@
 import signUpCSS from './signup.module.scss'
 import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
-import useAPI from '../../hooks/useAPI/useAPI'
+import axiosInstance from '../../api/axiosInstance'
 
 const SignUp = (props) => {
     const navigate = useNavigate()
@@ -24,7 +24,7 @@ const SignUp = (props) => {
         e.preventDefault()
         console.log(signUpForm)
 
-        useAPI
+        axiosInstance
             .post(`api/register/`, {
                 first_name: signUpForm.first_name,
                 last_name: signUpForm.last_name,

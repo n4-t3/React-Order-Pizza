@@ -1,13 +1,11 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode"
-import dayjs from 'dayjs'
 
-const baseURL = "http://127.0.0.1:8000/"
+export const baseURL = "http://127.0.0.1:8000/"
 
 let authTokens = localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null
 
 
-const useAPI = axios.create({
+const axiosInstance = axios.create({
     baseURL: baseURL,
     timeout: 5000,
     headers: {
@@ -18,12 +16,16 @@ const useAPI = axios.create({
 })
 
 
-useAPI.interceptors.response.use((response) => {
+axiosInstance.interceptors.response.use((response) => {
     return response
 },
     async (error) => {
         console.log('requesting refresh')
         const originalRequest = error.config
+        if(error.response.status==403){
+            console.log('here')
+            return Promise.resolve('not loged in')
+        }
         if (typeof error === 'undefined') {
             alert('A server/ Network /CORS error had occurred')
             return Promise.reject(error)
@@ -40,14 +42,14 @@ useAPI.interceptors.response.use((response) => {
                 console.log(tokenParts.exp)
                 if (tokenParts.exp > now) {
                     console.log('git refresh')
-                    return useAPI
+                    return axiosInstance
                         .post(`${baseURL}api/token/refresh/`, {
                             refresh: JSON.parse(authTokens).refresh
                         }).then((response) => {
                             localStorage.setItem('authTokens', JSON.stringify(response.data))
-                            useAPI.defaults.headers['Authorization'] = `JWT ${response.data.access}`
+                            axiosInstance.defaults.headers['Authorization'] = `JWT ${response.data.access}`
                             originalRequest.defaults.headers['Authorization'] = `JWT ${response.data.access}`
-                            return useAPI(originalRequest)
+                            return axiosInstance(originalRequest)
                         })
                         .catch((error) => {
                             console.log(error)
@@ -58,10 +60,10 @@ useAPI.interceptors.response.use((response) => {
                 }
             } else {
                 console.log('refresh token is not available')
-                window.location.href = 'login/'
+                window.location.href = '/login/'
             }
             return Promise.reject(error)
         }
     })
 
-export default useAPI
+export default axiosInstance
