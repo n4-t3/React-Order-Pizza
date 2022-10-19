@@ -32,19 +32,26 @@ const OrderProgress = (props) => {
                 APIData["orders"].map((choice) => {
                     const item = menu.filter(item => item.id === choice.item)[0]
                     return (
-                        <div key={choice.id} className='container mb-4'>
+                        <div key={choice.id} className='container mb-2'>
                             <div className="card  w-100">
                                 {APIData.user && APIData.user.staff && <div className="card-body">
+                                    <div>
                                     <select className="form-select" aria-label="Default select example" onChange={(e, id) => handleChange(e, choice.id)} defaultValue={choice.delivery_status[0]}>
                                         <option value="1" >Preparing</option>
                                         <option value="2" >In Route</option>
                                         <option value="3" >Delivered</option>
                                     </select>
+                                    </div>
+                                    <div className='mt-2 ms-2'>
+                                        <p className='blockquote'>Email: {choice.user_email}</p>
+                                        <p className='blockquote'>Name: {choice.name}</p>
+                                        <p className='lead'>location: {choice.general_address} / {choice.specific_address} / {choice.zip_code}</p>
+                                    </div>
                                 </div>}
                                 <div className="card-body">
                                     <div className="mb-2">
                                         {item &&
-                                            <p>Item: {item.name}</p>}
+                                            <p className='blockquote'>Item: {item.name}</p>}
                                     </div>
                                     <div className="mb-2">
 
