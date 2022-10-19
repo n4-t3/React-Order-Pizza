@@ -22,7 +22,7 @@ axiosInstance.interceptors.response.use((response) => {
     async (error) => {
         console.log('requesting refresh')
         const originalRequest = error.config
-        if(error.response.status==403){
+        if(error.response.status===403){
             console.log('here')
             return Promise.resolve('not loged in')
         }

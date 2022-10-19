@@ -5,7 +5,7 @@ import { AuthContext } from '../../App'
 import axiosInstance from '../../api/axiosInstance'
 
 const Login = (props) => {
-    const ctx = useContext(AuthContext)
+    const { APIData, setAPIData} = useContext(AuthContext)
     const navigate = useNavigate();
     const initialLoginForm = Object.freeze({
         email: "",
@@ -32,7 +32,7 @@ const Login = (props) => {
                 (res) => {
                     localStorage.setItem('authTokens',  JSON.stringify(res.data))
                     axiosInstance.defaults.headers['Authorization'] = `JWT ${res.data.access}`
-                    ctx.setIsAuthenticated(true)
+                    APIData.setIsAuthenticated(true)
                     navigate('/React-Order-Pizza/')
                 }
             )

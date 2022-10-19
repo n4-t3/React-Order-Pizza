@@ -1,13 +1,13 @@
-import { useEffect, useContext,useLayoutEffect } from "react"
+import { useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../../App"
 import axiosInstance from "../../api/axiosInstance"
 
 const Logout = (props) => {
     const navigate = useNavigate()
-    const ctx = useContext(AuthContext)
+    const {APIData,setAPIData} = useContext(AuthContext)
     useEffect(() => {
-        ctx.setIsAuthenticated(false)
+        APIData.setIsAuthenticated(false)
         if (localStorage.getItem('authTokens')){
             const response = axiosInstance
             .post(`api/token/blacklist/`, {

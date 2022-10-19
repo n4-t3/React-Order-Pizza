@@ -8,15 +8,22 @@ import { AuthContext } from './App';
 
 
 export const ProtectedLoggedOutRoutes = (props) => {
-    const ctx = useContext(AuthContext)
+    const { APIData } = useContext(AuthContext)
     return (
-        !ctx.isAuthenticated ? <Outlet /> : <Menu />
+        !APIData.isAuthenticated ? <Outlet /> : <Menu />
     )
 }
 
 export const ProtectedLoggedInRoutes = (props) => {
-    const ctx = useContext(AuthContext)
+    const { APIData } = useContext(AuthContext)
     return (
-        ctx.isAuthenticated ? <Outlet /> : <Login />
+        APIData.isAuthenticated ? <Outlet /> : <Login />
+    )
+}
+
+export const ProtectedStaffRoutes = (props) => {
+    const { APIData } = useContext(AuthContext)
+    return (
+        APIData.isAuthenticated && APIData.user && APIData.user.staff ? <Outlet /> : <Menu />
     )
 }

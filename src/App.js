@@ -7,61 +7,75 @@ import Login from "./pages/login/login"
 import Logout from './pages/logout/logout';
 import SignUp from './pages/signup/signup';
 import CheckOut from './pages/checkout/checkout';
+import AddMenu from './pages/add_menu/addMenu';
+import EditMenu from './pages/edit_menu/editMenu';
 import OrderProgress from './pages/order_progress/orderProgress'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ProtectedLoggedInRoutes, ProtectedLoggedOutRoutes } from './protectedRoutes';
+import { ProtectedStaffRoutes, ProtectedLoggedInRoutes, ProtectedLoggedOutRoutes } from './protectedRoutes';
 import axiosInstance from './api/axiosInstance';
 
 export const AuthContext = React.createContext()
 
 function App() {
-  
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [menu,setMenu] = useState(null)
-  const [user,setUser] = useState(null)
-  const [orders,setOrders] = useState(null)
+  const [APIData, setAPIData] = useState({})
 
   useEffect(() => {
     localStorage.getItem('authTokens') ? setIsAuthenticated(true) : setIsAuthenticated(false)
   }, [localStorage.getItem('authTokens')])
 
-  let data = {
-    isAuthenticated, setIsAuthenticated,menu,user,orders
-  }
-  
   useEffect(() => {
     axiosInstance.get('')
-        .then(resp => {
-          setMenu(resp.data)
-        })
-    if (isAuthenticated) {
-      axiosInstance.get('api/user/')
-        .then(resp => {
-          setUser(resp.data)
-        })
-      axiosInstance.get('api/order/')
-        .then(resp => {
-          setOrders(resp.data)
-        })
-    }
+      .then(resp => {
+        setAPIData((prevAPIData) => ({ ...prevAPIData, menu: resp.data, setIsAuthenticated: setIsAuthenticated, isAuthenticated: isAuthenticated }))
+        return resp
+      }).then(resp => {
+        if (isAuthenticated) {
+          axiosInstance.get('api/user/')
+            .then(resp => {
+              setAPIData((prevAPIData) => ({ ...prevAPIData, user: resp.data }))
+              return resp
+            }).then(resp => {
+              axiosInstance.get('api/order/')
+                .then(resp => {
+                  setAPIData((prevAPIData) => ({ ...prevAPIData, orders: resp.data }))
+                  return resp
+                }).then(resp => {
+                  axiosInstance.get('api/cart/')
+                    .then(resp => {
+                      setAPIData((prevAPIData) => ({ ...prevAPIData, cart: resp.data }))
+                      return resp
+                    }
+                    )
+                }
+                )
+            }
+            )
+        }
+        return resp
+      })
   }, [isAuthenticated])
 
   return (
     <Router>
       <React.Fragment>
-        <AuthContext.Provider value={data}>
-          <NavBar></NavBar>
+        <AuthContext.Provider value={{APIData,setAPIData}}>
+          <NavBar />
         </AuthContext.Provider>
         <div className="container">
-          <AuthContext.Provider value={data}>
+          <AuthContext.Provider value={{APIData,setAPIData}}>
             <Routes>
               <Route exact path="/React-Order-Pizza/" element={<Menu />} />
-              <Route exact path="/React-Order-Pizza/cart/" element={<Cart />} />
+              <Route element={< ProtectedStaffRoutes />}>
+                <Route exact path="/React-Order-Pizza/addMenu/" element={<AddMenu />} />
+                <Route exact path="/React-Order-Pizza/editMenu/" element={<EditMenu />} />
+              </Route>
               <Route element={< ProtectedLoggedOutRoutes />}>
                 <Route exact path="/React-Order-Pizza/login/" element={<Login />} />
                 <Route exact path="/React-Order-Pizza/register/" element={<SignUp />} />
               </Route>
               <Route element={< ProtectedLoggedInRoutes />}>
+                <Route exact path="/React-Order-Pizza/cart/" element={<Cart />} />
                 <Route exact path="/React-Order-Pizza/logout/" element={<Logout />} />
                 <Route exact path="/React-Order-Pizza/checkout/" element={<CheckOut />} />
                 <Route exact path="/React-Order-Pizza/progress/" element={<OrderProgress />} />

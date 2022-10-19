@@ -22,7 +22,6 @@ const SignUp = (props) => {
     }
     const handleSignUp = (e) => {
         e.preventDefault()
-        console.log(signUpForm)
 
         axiosInstance
             .post(`api/register/`, {
@@ -34,8 +33,6 @@ const SignUp = (props) => {
             .then(
                 (res) =>{
                     navigate('/React-Order-Pizza/login/')
-                    console.log(res)
-                    console.log(res.data)
                 }
             )
     }
