@@ -12,17 +12,18 @@ const EditMenu = (props) => {
     const [menuForm, setMenuForm] = useState(idMenu)
     const [postImage, setPostImage] = useState(null)
     const handleChange = (e) => {
-        if ([e.target.name] === 'picture') {
+        if (e.target.name === 'picture') {
             setPostImage({
                 image: e.target.files[0]
             })
+        }else{
+            setMenuForm((prevMenuForm) => {
+                return {
+                    ...prevMenuForm,
+                    [e.target.name]: e.target.value.trim()
+                }
+            })
         }
-        setMenuForm((prevMenuForm) => {
-            return {
-                ...prevMenuForm,
-                [e.target.name]: e.target.value.trim()
-            }
-        })
     }
     useEffect(() => {
         const inputs = document.getElementsByTagName('input')
@@ -30,7 +31,7 @@ const EditMenu = (props) => {
             if (inputs[i].name === 'picture') {
                 continue
             }
-            if (idMenu[inputs[i].name]) {
+            else if (idMenu[inputs[i].name]) {
                 inputs[i].value = idMenu[inputs[i].name]
                 setMenuForm((prevMenuForm) => {
                     return {
@@ -56,6 +57,8 @@ const EditMenu = (props) => {
             postData.append('size', menuForm.size)
         } if (menuForm.items_in_stock) {
             postData.append('items_in_stock', menuForm.items_in_stock)
+        } if (menuForm.our_rating) {
+            postData.append('our_rating', menuForm.our_rating)
         }
         postData.append('name', menuForm.name)
         postData.append('price', menuForm.price)
@@ -71,8 +74,7 @@ const EditMenu = (props) => {
                         .then(resp => {
                             setAPIData((prevAPIData) => ({ ...prevAPIData, menu: resp.data }))
                             navigate('/React-Order-Pizza/')
-                        }
-                        )
+                        })
                 }
             )
     }
@@ -87,6 +89,9 @@ const EditMenu = (props) => {
                         <input type="text" name="name" onChange={handleChange} className="form-control" id="name" />
                         <label htmlFor="price" className="form-label" >Price</label>
                         <input type="text" className="form-control" id="price" name="price" onChange={handleChange} />
+                        <label htmlFor="our_rating" className="form-label" >Our Rating</label>
+                        <input type="number" className="form-control" id="our_rating" name="our_rating" onChange={handleChange} />
+                        <small id="our_rating" className="form-text text-muted">Rating of the Pizza 0~5, decimals are allowed.</small>
                     </div>
                     <div className='mb-2'>
                         <label htmlFor="topping_1" className="form-label" >First Topping</label>

@@ -19,6 +19,7 @@ export const AuthContext = React.createContext()
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [APIData, setAPIData] = useState({})
+  const [serverIsLive, setServerIsLive] = useState(false)
 
   useEffect(() => {
     localStorage.getItem('authTokens') ? setIsAuthenticated(true) : setIsAuthenticated(false)
@@ -27,6 +28,7 @@ function App() {
   useEffect(() => {
     axiosInstance.get('')
       .then(resp => {
+        setServerIsLive(true)
         setAPIData((prevAPIData) => ({ ...prevAPIData, menu: resp.data, setIsAuthenticated: setIsAuthenticated, isAuthenticated: isAuthenticated }))
         return resp
       }).then(resp => {
@@ -57,32 +59,41 @@ function App() {
   }, [isAuthenticated])
 
   return (
+
+
     <Router>
       <React.Fragment>
-        <AuthContext.Provider value={{APIData,setAPIData}}>
+        <AuthContext.Provider value={{ APIData, setAPIData }}>
           <NavBar />
         </AuthContext.Provider>
-        <div className="container">
-          <AuthContext.Provider value={{APIData,setAPIData}}>
-            <Routes>
-              <Route exact path="/React-Order-Pizza/" element={<Menu />} />
-              <Route element={< ProtectedStaffRoutes />}>
-                <Route exact path="/React-Order-Pizza/addMenu/" element={<AddMenu />} />
-                <Route exact path="/React-Order-Pizza/editMenu/" element={<EditMenu />} />
-              </Route>
-              <Route element={< ProtectedLoggedOutRoutes />}>
-                <Route exact path="/React-Order-Pizza/login/" element={<Login />} />
-                <Route exact path="/React-Order-Pizza/register/" element={<SignUp />} />
-              </Route>
-              <Route element={< ProtectedLoggedInRoutes />}>
-                <Route exact path="/React-Order-Pizza/cart/" element={<Cart />} />
-                <Route exact path="/React-Order-Pizza/logout/" element={<Logout />} />
-                <Route exact path="/React-Order-Pizza/checkout/" element={<CheckOut />} />
-                <Route exact path="/React-Order-Pizza/progress/" element={<OrderProgress />} />
-              </Route>
-            </Routes>
-          </AuthContext.Provider>
-        </div>
+        {
+          !serverIsLive ? <div>
+            <div className="d-flex align-items-center justify-content-center vh-100 bg-primary">
+              <h1 className="display-2 fw-bold text-white">404</h1>
+            </div>
+          </div> :
+            <div className="container">
+              <AuthContext.Provider value={{ APIData, setAPIData }}>
+                <Routes>
+                  <Route exact path="/React-Order-Pizza/" element={<Menu />} />
+                  <Route element={< ProtectedStaffRoutes />}>
+                    <Route exact path="/React-Order-Pizza/addMenu/" element={<AddMenu />} />
+                    <Route exact path="/React-Order-Pizza/editMenu/" element={<EditMenu />} />
+                  </Route>
+                  <Route element={< ProtectedLoggedOutRoutes />}>
+                    <Route exact path="/React-Order-Pizza/login/" element={<Login />} />
+                    <Route exact path="/React-Order-Pizza/register/" element={<SignUp />} />
+                  </Route>
+                  <Route element={< ProtectedLoggedInRoutes />}>
+                    <Route exact path="/React-Order-Pizza/cart/" element={<Cart />} />
+                    <Route exact path="/React-Order-Pizza/logout/" element={<Logout />} />
+                    <Route exact path="/React-Order-Pizza/checkout/" element={<CheckOut />} />
+                    <Route exact path="/React-Order-Pizza/progress/" element={<OrderProgress />} />
+                  </Route>
+                </Routes>
+              </AuthContext.Provider>
+            </div>
+        }
       </React.Fragment>
     </Router>
   );

@@ -7,7 +7,6 @@ const OrderProgress = (props) => {
 
     const { APIData, setAPIData } = useContext(AuthContext)
     const menu = APIData["menu"]
-    const SIDES_CHOICES = ['French Fry', 'Coke', 'Sprite']
     const DELIVERY_CHOICES = ['Preparing', 'In Route', 'Delivered']
     const handleChange = (e, id) => {
         const previousData = APIData.orders.filter(element => element.id === id)[0]

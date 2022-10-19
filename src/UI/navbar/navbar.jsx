@@ -1,6 +1,6 @@
 import pizzaLogo from "./svg/pizza.svg"
 import { Link } from 'react-router-dom'
-import React, { useContext,useState } from 'react'
+import React, { useContext } from 'react'
 import { AuthContext } from "../../App"
 
 const NavBar = (props) => {

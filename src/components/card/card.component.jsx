@@ -73,7 +73,7 @@ const Card = (props) => {
                     <b>Items in stock:</b> {props.data.items_in_stock}
                 </p>
                 <p className="card-text">
-                    <Rating readonly={true} initialValue={props.data.average_rating} allowFraction={true} size={25} />
+                    Our rating: <Rating readonly={true} initialValue={props.data.our_rating} allowFraction={true} size={25} />
                 </p>
                 <div className="d-flex flex-row justify-content-center">
                     <input type="button" value="Add" onClick={(e) => handleAddToCart(e, props.data.id)} className={`btn btn-primary ${props.data.items_in_stock === 0 ? 'disabled' : null}`}/>
