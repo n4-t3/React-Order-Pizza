@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const baseURL = "http://127.0.0.1:8000/"
+export const baseURL = "http://nathan34.pythonanywhere.com/"
 
 let authTokens = localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null
 
