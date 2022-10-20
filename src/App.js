@@ -19,7 +19,7 @@ export const AuthContext = React.createContext()
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [APIData, setAPIData] = useState({})
-  const [serverIsLive, setServerIsLive] = useState(false)
+  const [serverIsLive, setServerIsLive] = useState(true)
 
   useEffect(() => {
     localStorage.getItem('authTokens') ? setIsAuthenticated(true) : setIsAuthenticated(false)
@@ -31,7 +31,9 @@ function App() {
         setServerIsLive(true)
         setAPIData((prevAPIData) => ({ ...prevAPIData, menu: resp.data, setIsAuthenticated: setIsAuthenticated, isAuthenticated: isAuthenticated }))
         return resp
-      }).then(resp => {
+      }).catch(resp=>{
+        setServerIsLive(false)
+        return resp}).then(resp => {
         if (isAuthenticated) {
           axiosInstance.get('api/user/')
             .then(resp => {
@@ -47,12 +49,9 @@ function App() {
                     .then(resp => {
                       setAPIData((prevAPIData) => ({ ...prevAPIData, cart: resp.data }))
                       return resp
-                    }
-                    )
-                }
-                )
-            }
-            )
+                    })
+                })
+            })
         }
         return resp
       })

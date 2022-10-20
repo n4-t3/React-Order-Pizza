@@ -11,6 +11,7 @@
     "node-sass": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-responsive-masonry": "^2.1.6",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "react-simple-star-rating": "^5.1.3",

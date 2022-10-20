@@ -61,7 +61,7 @@ const Card = (props) => {
     }
     return (
 
-        <div className={`card m-3 ${cardCSS.card}`} style={{ width: '18rem' }}>
+        <div className={`card m-3 ${cardCSS.card}`}>
             <img src={`${baseURL.slice(0, -1)}${props.data.picture}`} className="card-img-top" alt="pizza" />
             <div className="card-body">
                 <div className="d-flex flex-row justify-content-between">

@@ -35,11 +35,11 @@ const OrderProgress = (props) => {
                             <div className="card  w-100">
                                 {APIData.user && APIData.user.staff && <div className="card-body">
                                     <div>
-                                    <select className="form-select" aria-label="Default select example" onChange={(e, id) => handleChange(e, choice.id)} defaultValue={choice.delivery_status[0]}>
-                                        <option value="1" >Preparing</option>
-                                        <option value="2" >In Route</option>
-                                        <option value="3" >Delivered</option>
-                                    </select>
+                                        <select className="form-select" aria-label="Default select example" onChange={(e, id) => handleChange(e, choice.id)} defaultValue={choice.delivery_status[0]}>
+                                            <option value="1" >Preparing</option>
+                                            <option value="2" >In Route</option>
+                                            <option value="3" >Delivered</option>
+                                        </select>
                                     </div>
                                     <div className='mt-2 ms-2'>
                                         <p className='blockquote'>Email: {choice.user_email}</p>
@@ -51,6 +51,7 @@ const OrderProgress = (props) => {
                                     <div className="mb-2">
                                         {item &&
                                             <p className='blockquote'>Item: {item.name}</p>}
+                                        <p className='lead'>location: {choice.general_address} / {choice.specific_address} / {choice.zip_code}</p>
                                     </div>
                                     <div className="mb-2">
 
